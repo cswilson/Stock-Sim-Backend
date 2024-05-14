@@ -3,6 +3,11 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 const TICKER_REQUEST_BASE = "https://query1.finance.yahoo.com/v7/finance/chart/";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+    res.setHeader('Access-Control-Allow-Credentials', "true")
+    //Unfortunately the free tier of Vercel does not allow you to set a fixed IP for your deployments.
+    //I have no choice but to allow requests from any origin.
+    res.setHeader('Access-Control-Allow-Origin', '*')
+
     const ticker = req.query.ticker;
     let queryString = TICKER_REQUEST_BASE + ticker;
 
@@ -23,6 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
     } catch (error) {
-        res.status(500).send("Internal Server Error");
+        const errorMessage = error instanceof Error ? error.message : "Internal Server Error";
+        return res.status(500).json({ error: errorMessage });
     }
 }
