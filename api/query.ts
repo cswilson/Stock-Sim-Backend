@@ -5,8 +5,7 @@ const TICKER_REQUEST_BASE = "https://query1.finance.yahoo.com/v7/finance/chart/"
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     res.setHeader('Access-Control-Allow-Credentials', "true")
-    //Unfortunately the free tier of Vercel does not allow you to set a fixed IP for your deployments.
-    //I have no choice but to allow requests from any origin.
+    //The free tier of Vercel doesn't allow setting a fixed IP for deployments, so requests are permitted from any origin.
     res.setHeader('Access-Control-Allow-Origin', '*')
 
     const ticker = req.query.ticker;
