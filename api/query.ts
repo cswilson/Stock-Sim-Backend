@@ -3,6 +3,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node'
 const TICKER_REQUEST_BASE = "https://query1.finance.yahoo.com/v7/finance/chart/";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+    
     res.setHeader('Access-Control-Allow-Credentials', "true")
     //Unfortunately the free tier of Vercel does not allow you to set a fixed IP for your deployments.
     //I have no choice but to allow requests from any origin.
@@ -17,6 +18,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (p1 !== undefined && p2 !== undefined) {
         queryString += `?period1=${p1}&period2=${p2}&interval=1mo&events=div`;
     }
+
+    console.log("Sending request: " + queryString)
 
     try {
         const response = await fetch(queryString);
